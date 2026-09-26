@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products | Nithara Fashion Store</title>
+    <link rel="icon" type="image/jpeg" href="../assets/images/favicon.jpg">
+    <link rel="stylesheet" href="../css/main.css?v=11">
+    <link rel="stylesheet" href="../css/components.css?v=11">
+    <style>
+        .page-header {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        .page-header h1 {
+            color: var(--white);
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .filters-bar {
+            padding: 20px 0;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .filter-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            outline: none;
+            cursor: pointer;
+        }
+        /* Product Listing specific tweaks */
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #E53E3E;
+            color: var(--white);
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 4px;
+            z-index: 2;
+        }
+        .btn-view-product {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 12px 0;
+            background-color: var(--dark);
+            color: var(--white);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+        .btn-view-product:hover {
+            background-color: var(--primary-gold);
+        }
+        .stock-status {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .in-stock { color: #38A169; }
+        .out-of-stock { color: #E53E3E; }
+    </style>
+</head>
+<body>
+
+    <!-- Premium Global Loader -->
+    <div class="global-loader" id="global-loader">
+        <div class="loader-brand">NITHARA</div>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="brand">
+                NITHARA
+                <span>Fashion Store</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="/">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/about.html">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/contact.html">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-search-widget" style="margin-right: 20px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="global-search-input" placeholder="Search Nithara...">
+                <div class="search-dropdown" id="global-search-dropdown"></div>
+            </div>
+            <button class="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>All Products</h1>
+            <p>Discover our complete collection across all categories.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section" style="padding-top: 40px;">
+        <div class="container">
+            
+            <!-- Filters Bar -->
+            <div class="filters-bar" style="flex-wrap: wrap; gap: 15px;">
+                <div class="results-count" id="results-count"><div class="spinner-container"><div class="spinner"></div></div></div>
+                
+                <div class="search-box" style="flex-grow: 1; max-width: 400px; display: flex; gap: 10px;">
+                    <input type="text" id="search-input" placeholder="Search for products, brands, SKUs..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-family: var(--font-body);">
+                    <button id="search-btn" class="btn btn-primary" style="padding: 10px 20px;">Search</button>
+                </div>
+
+                <div class="filter-group" style="display: flex; gap: 10px;">
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <!-- Populated via JS -->
+                    </select>
+                    <select id="sort-select">
+                        <option value="default">Sort By: Recommended</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="newest">Newest Arrivals</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-4" id="all-products-container">
+                <!-- Populated via JS -->
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Kept consistent with index.html -->
+        <div class="container">
+            <div class="footer-bottom" style="border: none;">
+                <p>&copy; 2026 Nithara Fashion Store. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/products.js"></script>
+    <script src="../js/search-widget.js"></script>
+</body>
+</html>

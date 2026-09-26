@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Nithara Fashion Store</title>
+    <link rel="icon" type="image/jpeg" href="../assets/images/favicon.jpg">
+    <link rel="stylesheet" href="../css/main.css?v=10">
+    <link rel="stylesheet" href="../css/components.css?v=10">
+    <style>
+        .product-details-section {
+            padding: 120px 0 80px;
+        }
+        .pd-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        
+        /* Left Side: Gallery */
+        .pd-gallery {
+            position: sticky;
+            top: 100px;
+        }
+        .pd-main-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+        }
+        .pd-thumbnails {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .pd-thumb {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+        .pd-thumb:hover, .pd-thumb.active {
+            opacity: 1;
+            border: 2px solid var(--primary-gold);
+        }
+
+        /* Right Side: Info */
+        .pd-info {
+            padding-top: 20px;
+        }
+        .pd-category {
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .pd-title {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        .pd-brand {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .pd-price-wrap {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .pd-price {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+        }
+        .pd-compare-price {
+            font-size: 1.2rem;
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+        .pd-availability {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: #F0FFF4;
+            color: #2F855A;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        .pd-sku {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 30px;
+        }
+        .pd-desc {
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        /* Variants */
+        .pd-options h4 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .pd-variant-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .variant-btn {
+            padding: 10px 20px;
+            border: 1px solid #eaeaea;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .variant-btn:hover, .variant-btn.active {
+            border-color: var(--dark);
+            background-color: var(--dark);
+            color: var(--white);
+        }
+
+        /* Attributes */
+        .pd-attributes {
+            margin-top: 40px;
+        }
+        .pd-attr-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .pd-attr-name {
+            width: 40%;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        .pd-attr-val {
+            width: 60%;
+            color: var(--muted);
+        }
+
+        @media (max-width: 900px) {
+            .pd-grid {
+                grid-template-columns: 1fr;
+            }
+            .pd-gallery {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Premium Global Loader -->
+    <div class="global-loader" id="global-loader">
+        <div class="loader-brand">NITHARA</div>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="brand">
+                NITHARA
+                <span>Fashion Store</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="/">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/about.html">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/contact.html">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-search-widget" style="margin-right: 20px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="global-search-input" placeholder="Search Nithara...">
+                <div class="search-dropdown" id="global-search-dropdown"></div>
+            </div>
+            <button class="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Product Details -->
+    <main class="product-details-section">
+        <div class="container">
+            <div id="loading-state" class="spinner-container"><div class="spinner"></div></div>
+            <div id="error-state" style="display: none;">Product not found.</div>
+            
+            <div class="pd-grid fade-in" id="pd-content" style="display: none;">
+                
+                <!-- Left: Gallery -->
+                <div class="pd-gallery">
+                    <img src="" alt="" id="pd-main-img" class="pd-main-img">
+                    <div class="pd-thumbnails" id="pd-thumbnails">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Right: Info -->
+                <div class="pd-info">
+                    <div class="pd-category" id="pd-category"></div>
+                    <h1 class="pd-title" id="pd-title"></h1>
+                    <div class="pd-brand" id="pd-brand"></div>
+                    
+                    <div class="pd-price-wrap">
+                        <div class="pd-price" id="pd-price"></div>
+                        <div class="pd-compare-price" id="pd-compare-price"></div>
+                    </div>
+                    
+                    <div class="pd-availability" id="pd-availability">Available</div>
+                    <div class="pd-sku" id="pd-sku"></div>
+                    
+                    <div class="pd-desc" id="pd-desc"></div>
+
+                    <!-- Variants: Sizes -->
+                    <div class="pd-options" id="pd-sizes-container" style="display: none;">
+                        <h4>Sizes</h4>
+                        <div class="pd-variant-group" id="pd-sizes">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Variants: Colors -->
+                    <div class="pd-options" id="pd-colors-container" style="display: none;">
+                        <h4>Colors</h4>
+                        <div class="pd-variant-group" id="pd-colors">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Attributes -->
+                    <div class="pd-attributes" id="pd-attributes">
+                        <h4>Product Specifications</h4>
+                        <div id="pd-attr-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border: none;">
+                <p>&copy; 2026 Nithara Fashion Store. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/product-details.js"></script>
+    <script src="../js/search-widget.js"></script>
+</body>
+</html>

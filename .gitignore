@@ -1,0 +1,30 @@
+# Environments and Secrets
+.env
+*.env
+backend/.env
+
+# Python Virtual Environments
+venv/
+backend/venv/
+ENV/
+env/
+.venv/
+
+# Python Cache
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+instance/
+backend/instance/
+
+# Uploads
+uploads/
+backend/uploads/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

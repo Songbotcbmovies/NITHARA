@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nithara Fashion Store | Discover Fashion, Jewellery & More</title>
+    <meta name="description" content="Discover premium fashion, accessories, jewellery, gifts and more at Nithara Fashion Store.">
+    <link rel="icon" type="image/jpeg" href="assets/images/favicon.jpg">
+    <link rel="stylesheet" href="css/main.css?v=11">
+    <link rel="stylesheet" href="css/components.css?v=11">
+    <style>
+        /* Hero Section Specific Styles */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            background: linear-gradient(rgba(15, 15, 26, 0.4), rgba(15, 15, 26, 0.6)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding-top: 80px; /* Offset for navbar */
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 5rem);
+            color: var(--white);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideUp 1s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            animation: slideUp 1s ease forwards 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .hero .btn {
+            animation: slideUp 1s ease forwards 0.6s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Premium Global Loader -->
+    <div class="global-loader" id="global-loader">
+        <div class="loader-brand">NITHARA</div>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="brand">
+                NITHARA
+                <span>Fashion Store</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="/" class="active">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/about.html">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/contact.html">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-search-widget" style="margin-right: 20px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="global-search-input" placeholder="Search Nithara...">
+                <div class="search-dropdown" id="global-search-dropdown"></div>
+            </div>
+            <button class="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Style</h1>
+            <p>Explore clothing, jewellery, accessories, toys, gifts and more at Nithara Fashion Store.</p>
+            <a href="/pages/products.html" class="btn btn-primary">Explore Products</a>
+        </div>
+    </header>
+
+    <!-- Category Section -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Explore Our Collections</h2>
+                <p>Curated categories for every aspect of your life.</p>
+            </div>
+            <div class="grid grid-4" id="categories-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Featured at Nithara</h2>
+                <p>Handpicked selections showcasing premium quality.</p>
+            </div>
+            <div class="grid grid-4" id="featured-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+            <div class="text-center" style="margin-top: 50px; text-align: center;">
+                <a href="/pages/products.html" class="btn btn-outline fade-in">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="section" style="background-color: #F3F4F6;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>New Arrivals</h2>
+                <p>The latest additions to Nithara Fashion Store.</p>
+            </div>
+            <div class="grid grid-4" id="new-arrivals-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2>Nithara Fashion Store</h2>
+                    <p>Bringing together carefully presented products across fashion, jewellery, accessories, toys, gifts and lifestyle categories.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/products.html">All Products</a></li>
+                        <li><a href="/pages/about.html">About Us</a></li>
+                        <li><a href="/pages/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping Information</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nithara Fashion Store. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/search-widget.js"></script>
+</body>
+</html>

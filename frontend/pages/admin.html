@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Nithara Fashion Store</title>
+    <link rel="icon" type="image/jpeg" href="../assets/images/favicon.jpg">
+    <link rel="stylesheet" href="../css/main.css?v=3">
+    <link rel="stylesheet" href="../css/components.css?v=3">
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .admin-sidebar {
+            width: 250px;
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 30px 20px;
+        }
+        .admin-sidebar h2 {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+        }
+        .admin-nav li {
+            margin-bottom: 15px;
+        }
+        .admin-nav a {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.1rem;
+        }
+        .admin-nav a:hover, .admin-nav a.active {
+            color: var(--white);
+            padding-left: 5px;
+        }
+        .admin-main {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: var(--background);
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        /* Simple table for data */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .admin-table th, .admin-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .admin-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="global-loader hidden" id="global-loader">
+        <div class="loader-brand">ADMIN</div>
+        <div class="spinner"></div>
+    </div>
+    
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <h2>NITHARA<br><span style="font-size: 0.8rem; color: var(--white);">Admin Panel</span></h2>
+            <ul class="admin-nav">
+                <li><a href="#" class="active" id="nav-products">Products</a></li>
+                <li><a href="#" id="nav-categories">Categories</a></li>
+                <li><a href="#" id="nav-attributes">Attributes</a></li>
+                <li><a href="#" id="nav-featured">Featured</a></li>
+                <li style="margin-top: 50px;"><a href="#" id="logout-btn" style="color: #E53E3E;">Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1 id="dashboard-title">Products Management</h1>
+                <button class="btn btn-primary" id="btn-create">Create New</button>
+            </div>
+
+            <!-- Toolbar for Search and Sort -->
+            <div class="admin-toolbar" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center; justify-content: space-between; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <input type="text" id="admin-search-input" placeholder="Search by name, ID, slug..." style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 300px; font-family: var(--font-body);">
+                <div style="display: flex; gap: 10px;">
+                    <select id="admin-filter-category" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: var(--font-body); display: none;">
+                        <option value="all">All Categories</option>
+                    </select>
+                    
+                    <select id="admin-filter-availability" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: var(--font-body);">
+                        <option value="all">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    
+                    <select id="admin-sort-select" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: var(--font-body); min-width: 150px;">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="name_asc">Name (A-Z)</option>
+                        <option value="name_desc">Name (Z-A)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Attribute Preset Creation Form (Hidden by default) -->
+            <div id="attributes-manager" style="display: none; background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 15px;">Create New Attribute Preset</h3>
+                <form id="attr-preset-form" style="display: flex; gap: 15px; align-items: flex-end;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Type</label>
+                        <select id="attr-preset-type" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <option value="size">Size</option>
+                            <option value="color">Color</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Value</label>
+                        <input type="text" id="attr-preset-value" required placeholder="e.g. Medium or Red" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 250px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="padding: 8px 15px;">Add Preset</button>
+                </form>
+            </div>
+            
+            <div id="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr id="table-head">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr><td colspan="5">Loading data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="category-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; width: 400px; max-width: 90%;">
+            <h2 id="category-modal-title" style="margin-bottom: 20px;">Create Category</h2>
+            <form id="category-form">
+                <input type="hidden" id="cat-id">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Name</label>
+                    <input type="text" id="cat-name" required style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Description</label>
+                    <textarea id="cat-desc" style="width: 100%; padding: 8px; border: 1px solid #ccc;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Category Image</label>
+                    <input type="file" id="cat-image" accept="image/*" style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" class="btn btn-outline" id="btn-delete-cat" style="padding: 10px 20px; color: red; border-color: red; display: none;">Delete</button>
+                    <button type="button" class="btn btn-outline" id="btn-cancel-cat" style="padding: 10px 20px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; width: 600px; max-width: 90%; max-height: 90vh; overflow-y: auto;">
+            <h2 id="product-modal-title" style="margin-bottom: 20px;">Create Product</h2>
+            <form id="product-form">
+                <input type="hidden" id="prod-id">
+                <!-- Base Product Info -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Name</label>
+                        <input type="text" id="prod-name" required style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Category ID</label>
+                        <input type="number" id="prod-cat" required style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Primary Image</label>
+                    <input type="file" id="prod-image" accept="image/*" style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Base Price</label>
+                        <input type="number" id="prod-price" required step="0.01" style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Base SKU</label>
+                        <input type="text" id="prod-sku" required style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px;">Description</label>
+                    <textarea id="prod-desc" style="width: 100%; padding: 8px; border: 1px solid #ccc;"></textarea>
+                </div>
+                
+                <!-- Product Type Selection -->
+                <div style="margin-bottom: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: bold;">Product Type</label>
+                    <div style="display: flex; gap: 20px;">
+                        <label>
+                            <input type="radio" name="prod_type" value="simple" checked onchange="toggleProductType()"> Simple Product
+                        </label>
+                        <label>
+                            <input type="radio" name="prod_type" value="variable" onchange="toggleProductType()"> Variable Product
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Simple Product Stock Info -->
+                <div id="simple-product-fields" style="display: block; background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 15px;">
+                    <h3 style="margin-bottom: 10px; font-size: 1rem;">Inventory</h3>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Stock Quantity</label>
+                        <input type="number" id="simple-stock" value="10" required style="width: 100%; padding: 8px; border: 1px solid #ccc;">
+                    </div>
+                </div>
+
+                <!-- Variable Product Attributes Info -->
+                <div id="variable-product-fields" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="font-size: 1rem; margin: 0;">Product Variants</h3>
+                        <button type="button" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.8rem;" onclick="addVariantRow()">+ Add Variant</button>
+                    </div>
+                    <div id="variants-list">
+                        <!-- Variant rows populated by JS -->
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" class="btn btn-outline" id="btn-delete-prod" style="padding: 10px 20px; color: red; border-color: red; display: none;">Delete</button>
+                    <button type="button" class="btn btn-outline" id="btn-cancel-prod" style="padding: 10px 20px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="padding: 10px 20px;">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleProductType() {
+            const isVariable = document.querySelector('input[name="prod_type"]:checked').value === 'variable';
+            document.getElementById('simple-product-fields').style.display = isVariable ? 'none' : 'block';
+            document.getElementById('variable-product-fields').style.display = isVariable ? 'block' : 'none';
+        }
+    </script>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/admin-api.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
